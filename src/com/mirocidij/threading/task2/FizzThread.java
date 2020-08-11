@@ -1,15 +1,19 @@
 package com.mirocidij.threading.task2;
 
 public class FizzThread extends Thread {
-    private FizzBuzz fizzBuzz;
+    private final FizzBuzz fizzBuzz;
 
     public FizzThread(FizzBuzz fizzBuzz) {
+        super("Fizz");
+
         this.fizzBuzz = fizzBuzz;
+
+        start();
     }
 
     @Override
     public void run() {
-        while (fizzBuzz.getCurrent() != fizzBuzz.getN()) {
+        while (!interrupted()) {
             fizzBuzz.fizz();
         }
     }

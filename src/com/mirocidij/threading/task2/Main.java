@@ -8,10 +8,5 @@ public class Main {
         BuzzThread buzzThread = new BuzzThread(fizzBuzz);
         FizzBuzzThread fizzBuzzThread = new FizzBuzzThread(fizzBuzz);
         NumberThread numberThread = new NumberThread(fizzBuzz);
-
-        numberThread.start();
-        fizzBuzzThread.start();
-        fizzThread.start();
-        buzzThread.start();
     }
 }
