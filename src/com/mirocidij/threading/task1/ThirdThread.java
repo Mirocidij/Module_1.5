@@ -4,8 +4,9 @@ public class ThirdThread extends Thread {
     private Foo foo;
 
     public ThirdThread(Foo foo) {
-
         this.foo = foo;
+
+        start();
     }
 
     @Override

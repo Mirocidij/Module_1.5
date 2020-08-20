@@ -4,8 +4,9 @@ public class SecondThread extends Thread {
     private Foo foo;
 
     public SecondThread(Foo foo) {
-
         this.foo = foo;
+
+        start();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.mirocidij.threading.task1;
 
 public class Foo {
-
     private boolean firstCalled = false;
     private boolean secondCalled = false;
     private boolean thirdCalled = false;
