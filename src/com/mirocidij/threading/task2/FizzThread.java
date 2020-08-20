@@ -14,7 +14,9 @@ public class FizzThread extends Thread {
     @Override
     public void run() {
         while (!interrupted()) {
-            fizzBuzz.fizz();
+            try {
+                fizzBuzz.fizz();
+            } catch (InterruptedException ignored) { }
         }
     }
 }

@@ -1,8 +1,11 @@
 package com.mirocidij.threading.task2;
 
+import java.util.concurrent.Semaphore;
+
 public class Main {
     public static void main(String[] args) {
-        FizzBuzz fizzBuzz = new FizzBuzz(15);
+        Semaphore semaphore = new Semaphore(1, true);
+        FizzBuzz fizzBuzz = new FizzBuzz(15, semaphore);
 
         FizzThread fizzThread = new FizzThread(fizzBuzz);
         BuzzThread buzzThread = new BuzzThread(fizzBuzz);
