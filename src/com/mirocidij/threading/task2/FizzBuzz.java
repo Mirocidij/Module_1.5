@@ -4,16 +4,18 @@ import java.util.concurrent.Semaphore;
 
 public class FizzBuzz {
     private final int n;
-    private Semaphore semaphore;
+    private final Semaphore semAccess;
+    private final Semaphore semInc;
     private int current = 1;
 
-    public FizzBuzz(int n, Semaphore semaphore) {
+    public FizzBuzz(int n, Semaphore semAccess, Semaphore semInc) {
         this.n = n;
-        this.semaphore = semaphore;
+        this.semAccess = semAccess;
+        this.semInc = semInc;
     }
 
     public void fizz() throws InterruptedException {
-        semaphore.acquire();
+        semAccess.acquire();
         try {
             if (needExit()) {
                 Thread.currentThread().interrupt();
@@ -22,15 +24,15 @@ public class FizzBuzz {
 
             if (current % 3 == 0 && current % 5 != 0) {
                 System.out.print("fizz ");
-                current++;
+                incCurr();
             }
         } finally {
-            semaphore.release();
+            semAccess.release();
         }
     }
 
     public void buzz() throws InterruptedException {
-        semaphore.acquire();
+        semAccess.acquire();
         try {
             if (needExit()) {
                 Thread.currentThread().interrupt();
@@ -39,15 +41,15 @@ public class FizzBuzz {
 
             if (current % 5 == 0 && current % 3 != 0) {
                 System.out.print("buzz ");
-                current++;
+                incCurr();
             }
         } finally {
-            semaphore.release();
+            semAccess.release();
         }
     }
 
     public void fizzBuzz() throws InterruptedException {
-        semaphore.acquire();
+        semAccess.acquire();
         try {
             if (needExit()) {
                 Thread.currentThread().interrupt();
@@ -56,15 +58,15 @@ public class FizzBuzz {
 
             if (current % 15 == 0) {
                 System.out.print("fizzbuzz ");
-                current++;
+                incCurr();
             }
         } finally {
-            semaphore.release();
+            semAccess.release();
         }
     }
 
     public void number() throws InterruptedException {
-        semaphore.acquire();
+        semAccess.acquire();
         try {
             if (needExit()) {
                 Thread.currentThread().interrupt();
@@ -73,14 +75,23 @@ public class FizzBuzz {
 
             if (current % 3 != 0 && current % 5 != 0) {
                 System.out.print(current + " ");
-                current++;
+                incCurr();
             }
         } finally {
-            semaphore.release();
+            semAccess.release();
         }
     }
 
     private boolean needExit() {
         return current > n;
+    }
+
+    private void incCurr() throws InterruptedException {
+        semInc.acquire();
+        try {
+            current++;
+        } finally {
+            semInc.release();
+        }
     }
 }
