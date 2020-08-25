@@ -1,17 +1,16 @@
 package com.mirocidij.threading.task2;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FizzBuzz {
     private final int n;
     private final Semaphore semAccess;
-    private final Semaphore semInc;
-    private int current = 1;
+    private AtomicInteger curr = new AtomicInteger(1);
 
-    public FizzBuzz(int n, Semaphore semAccess, Semaphore semInc) {
+    public FizzBuzz(int n, Semaphore semAccess) {
         this.n = n;
         this.semAccess = semAccess;
-        this.semInc = semInc;
     }
 
     public void fizz() throws InterruptedException {
@@ -22,7 +21,7 @@ public class FizzBuzz {
                 return;
             }
 
-            if (current % 3 == 0 && current % 5 != 0) {
+            if (curr.get() % 3 == 0 && curr.get() % 5 != 0) {
                 System.out.print("fizz ");
                 incCurr();
             }
@@ -39,7 +38,7 @@ public class FizzBuzz {
                 return;
             }
 
-            if (current % 5 == 0 && current % 3 != 0) {
+            if (curr.get() % 5 == 0 && curr.get() % 3 != 0) {
                 System.out.print("buzz ");
                 incCurr();
             }
@@ -56,7 +55,7 @@ public class FizzBuzz {
                 return;
             }
 
-            if (current % 15 == 0) {
+            if (curr.get() % 15 == 0) {
                 System.out.print("fizzbuzz ");
                 incCurr();
             }
@@ -73,8 +72,8 @@ public class FizzBuzz {
                 return;
             }
 
-            if (current % 3 != 0 && current % 5 != 0) {
-                System.out.print(current + " ");
+            if (curr.get() % 3 != 0 && curr.get() % 5 != 0) {
+                System.out.print(curr.get() + " ");
                 incCurr();
             }
         } finally {
@@ -83,15 +82,10 @@ public class FizzBuzz {
     }
 
     private boolean needExit() {
-        return current > n;
+        return curr.get() > n;
     }
 
-    private void incCurr() throws InterruptedException {
-        semInc.acquire();
-        try {
-            current++;
-        } finally {
-            semInc.release();
-        }
+    private void incCurr() {
+        curr.incrementAndGet();
     }
 }

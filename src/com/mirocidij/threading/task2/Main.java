@@ -5,8 +5,7 @@ import java.util.concurrent.Semaphore;
 public class Main {
     public static void main(String[] args) {
         Semaphore semaphore = new Semaphore(1, true);
-        Semaphore semInc = new Semaphore(1, true);
-        FizzBuzz fizzBuzz = new FizzBuzz(15, semaphore, semInc);
+        FizzBuzz fizzBuzz = new FizzBuzz(15, semaphore);
 
         FizzThread fizzThread = new FizzThread(fizzBuzz);
         BuzzThread buzzThread = new BuzzThread(fizzBuzz);
