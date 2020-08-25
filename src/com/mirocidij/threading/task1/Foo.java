@@ -1,31 +1,41 @@
 package com.mirocidij.threading.task1;
 
+import java.util.concurrent.CountDownLatch;
+
 public class Foo {
-    private boolean firstCalled = false;
-    private boolean secondCalled = false;
-    private boolean thirdCalled = false;
+    private final CountDownLatch cdlFirst;
+    private final CountDownLatch cdlSecond;
+
+    public Foo(CountDownLatch cdlFirst, CountDownLatch cdlSecond) {
+        this.cdlFirst = cdlFirst;
+        this.cdlSecond = cdlSecond;
+    }
 
     public void first() {
-        if (!firstCalled) {
-            firstCalled = true;
-            System.out.print("first");
-            Thread.currentThread().interrupt();
-        }
+        System.out.print("first");
+
+        cdlFirst.countDown();
     }
 
     public void second() {
-        if (firstCalled && !secondCalled) {
-            secondCalled = true;
-            System.out.print("second");
-            Thread.currentThread().interrupt();
+        try {
+            cdlFirst.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        System.out.print("second");
+
+        cdlSecond.countDown();
     }
 
     public void third() {
-        if (secondCalled && !thirdCalled) {
-            thirdCalled = true;
-            System.out.print("third");
-            Thread.currentThread().interrupt();
+        try {
+            cdlSecond.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        System.out.print("third");
     }
 }

@@ -1,7 +1,7 @@
 package com.mirocidij.threading.task1;
 
 public class ThirdThread extends Thread {
-    private Foo foo;
+    private final Foo foo;
 
     public ThirdThread(Foo foo) {
         this.foo = foo;
@@ -11,8 +11,6 @@ public class ThirdThread extends Thread {
 
     @Override
     public void run() {
-        while (!interrupted()) {
-            foo.third();
-        }
+        foo.third();
     }
 }
