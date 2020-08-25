@@ -11,11 +11,8 @@ public class SecondThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            if (foo.isFirstCalled()) {
-                foo.second();
-                return;
-            }
+        while (!interrupted()) {
+            foo.second();
         }
     }
 }

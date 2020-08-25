@@ -1,5 +1,7 @@
 package com.mirocidij.threading.task1;
 
+import java.util.concurrent.Semaphore;
+
 public class Main {
     public static void main(String[] args) {
         Foo foo = new Foo();

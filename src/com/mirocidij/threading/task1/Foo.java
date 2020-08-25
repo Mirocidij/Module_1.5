@@ -5,30 +5,27 @@ public class Foo {
     private boolean secondCalled = false;
     private boolean thirdCalled = false;
 
-    public boolean isFirstCalled() {
-        return firstCalled;
-    }
-
-    public boolean isSecondCalled() {
-        return secondCalled;
-    }
-
-    public boolean isThirdCalled() {
-        return thirdCalled;
-    }
-
     public void first() {
-        System.out.print("first");
-        firstCalled = true;
+        if (!firstCalled) {
+            firstCalled = true;
+            System.out.print("first");
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void second() {
-        System.out.print("second");
-        secondCalled = true;
+        if (firstCalled && !secondCalled) {
+            secondCalled = true;
+            System.out.print("second");
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void third() {
-        System.out.print("third");
-        thirdCalled = true;
+        if (secondCalled && !thirdCalled) {
+            thirdCalled = true;
+            System.out.print("third");
+            Thread.currentThread().interrupt();
+        }
     }
 }

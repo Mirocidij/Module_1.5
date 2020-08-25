@@ -11,11 +11,8 @@ public class ThirdThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            if (foo.isSecondCalled()) {
-                foo.third();
-                return;
-            }
+        while (!interrupted()) {
+            foo.third();
         }
     }
 }
